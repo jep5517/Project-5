@@ -3,10 +3,12 @@
 Term: Fall 2022
 
 
-Project title: 
+Project title: Predicting Car Insurance Claims
 
-Team members:
-Podias, John
+Team members: 
+
+John Podias
+
 
 Project summary: 
 
