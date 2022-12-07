@@ -1,24 +1,3 @@
-# Project 5
+### Doc folder
 
-Term: Fall 2022
-
-
-Project title: 
-
-Team members:
-Podias, John
-
-Project summary: 
-
-Following suggestions by RICH FITZJOHN (@richfitz). This folder is orgarnized as follows.
-
-proj/
-
-├── lib/
-├── data/
-├── doc/
-├── figs/
-└── output/
-
-Please see each subfolder for a README file.
- 
+The doc directory contains the report or presentation files. It can have subfolders.  
