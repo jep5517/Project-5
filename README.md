@@ -12,6 +12,7 @@ Project summary:
 
 Following suggestions by RICH FITZJOHN (@richfitz). This folder is orgarnized as follows.
 
+```
 proj/
 
 ├── lib/
@@ -19,6 +20,7 @@ proj/
 ├── doc/
 ├── figs/
 └── output/
+```
 
 Please see each subfolder for a README file.
  
