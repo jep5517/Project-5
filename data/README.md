@@ -1,24 +1,4 @@
-# Project 5
+### Data folder
 
-Term: Fall 2022
-
-
-Project title: 
-
-Team members:
-Podias, John
-
-Project summary: 
-
-Following suggestions by RICH FITZJOHN (@richfitz). This folder is orgarnized as follows.
-
-proj/
-
-├── lib/
-├── data/
-├── doc/
-├── figs/
-└── output/
-
-Please see each subfolder for a README file.
+The data directory contains data used in the analysis. This is treated as read only; in paricular the R/python files are never allowed to write to the files in here. Depending on the project, these might be csv files, a database, and the directory itself may have subdirectories.
  
