@@ -12,7 +12,28 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r }
+rm(list=ls())
+train <- read.csv("~/Documents/GitHub/Project-5/data/train.csv",stringsAsFactors=TRUE)
+test <- read.csv("~/Documents/GitHub/Project-5/data/test.csv",stringsAsFactors=TRUE)
 
+#check datatypes
+str(train)
+library(dplyr)
+library(tidyverse)
+library(psych)
+head(train)
+describe(train)
+summary(train)
+dim(train)
+is.na(train)
+#no vlaue svlaue
+sum(is.na(train))
+table(train$policy_id)
+
+#check policy ID is unique
+length(unique(train$policy_id))
+#i need to only do this with the numeric values;
+cor(train)
 ```
 
 
