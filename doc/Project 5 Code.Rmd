@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
+EDA:
 
 ```{r }
 rm(list=ls())
@@ -34,6 +34,12 @@ table(train$policy_id)
 length(unique(train$policy_id))
 #i need to only do this with the numeric values;
 cor(train)
+
+
+#max tor mac power
+
+#engine type?
+unique(train$engine_type)
 ```
 
 
