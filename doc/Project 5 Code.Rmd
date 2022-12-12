@@ -9,41 +9,231 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-EDA:
+
+Step 1: Import packages and Data:
 
 ```{r }
 rm(list=ls())
-train <- read.csv("~/Documents/GitHub/Project-5/data/train.csv",stringsAsFactors=TRUE)
-test <- read.csv("~/Documents/GitHub/Project-5/data/test.csv",stringsAsFactors=TRUE)
-
-#check datatypes
-str(train)
+library(tidyr)
 library(dplyr)
-library(tidyverse)
+library(caret)
+library(ggplot2)
 library(psych)
+library(tidyverse)
+library(fastDummies)
+library(caret)
+library(randomForest)
+library(tree)
+library(e1071)
+library(DMwR2)
+library(smotefamily)
+library(performanceEstimation)
+library(DT)
+train <- read.csv("~/Documents/GitHub/Project-5/data/train.csv",stringsAsFactors=TRUE)
+#test <- read.csv("~/Documents/GitHub/Project-5/data/test.csv",stringsAsFactors=TRUE)
+```
+
+Step 2: Investigate Data:
+
+```{r}
+str(train)
 head(train)
 describe(train)
 summary(train)
 dim(train)
-is.na(train)
-#no vlaue svlaue
+
+hist(train$max_torque_RPM)
+plot(train$max_torque_RPM)
+boxplot(train$max_torque_RPM)
+
+#check na values
 sum(is.na(train))
-table(train$policy_id)
 
-#check policy ID is unique
+#Check policy ID is unique so we are not analyzing duplicates
 length(unique(train$policy_id))
-#i need to only do this with the numeric values;
-cor(train)
+
+corr(train()) #i need to only do this with the numeric values;
+```
+
+Step 3: One hot encoding and EDA::
+
+```{r}
+
+train$is_claim<-as.factor(train$is_claim)
+train$make<-as.factor(train$make)
+
+#max tor 
+
+train$max_torque_Nm<-sub("@.*","",train$max_torque)
+train$max_torque_Nm<-str_replace(train$max_torque_Nm,"Nm","")
+train$max_torque_Nm<-as.numeric(train$max_torque_Nm)
+
+train$max_torque_RPM<-sub(".*@","",train$max_torque)
+train$max_torque_RPM<-str_replace(train$max_torque_RPM,"rpm","")
+train$max_torque_RPM<-as.numeric(train$max_torque_RPM) #maxpower
+
+train$max_power_BHP<-sub("@.*","",train$max_power)
+train$max_power_BHP<-str_replace(train$max_power_BHP,"bhp","")
+train$max_power_BHP<-as.numeric(train$max_power_BHP)
+
+train$max_power_RPM<-sub(".*@","",train$max_power)
+train$max_power_RPM<-str_replace(train$max_power_RPM,"rpm","")
+train$max_power_RPM<-as.numeric(train$max_power_RPM)
 
 
-#max tor mac power
+#dummy variables
+train<-dummy_cols(train,remove_first_dummy=TRUE,select_columns = c("model","area_cluster","make","segment","fuel_type")) 
+#remove first dummy makes it so that we are only doing it for k-1
 
-#engine type?
+str(train)
+
+train[,c(49:90)] <- lapply(train[,c(49:90)],factor)
+str(train)
+
+#get rid of unenccsary id column and others
+train<-train %>% select(-c(policy_id,model,area_cluster,make,segment,fuel_type,engine_type,max_torque,max_power))
+
+```
+
+Step 4: Feature Engineering and data Cleaning:
+
+Apparnelty Python requires one hot encoding for random forest but R does it anyway; but there are article that say we shouldnt; what si the correct answer?
+
+How do SVM handle nuemrical and caterocial variables:
+
+How do log handle categorical?
+
+what do we do with the differncelt scaled numericla varialbles?
+
+```{r}
+#check unique values for the high cardinality columns;
+#onehot encode the high cardinal factor variables? or group them? or only use the common ones?
 unique(train$engine_type)
+
+#dmy <- dummyVars(" ~ .", data = customers)
+#trsf <- data.frame(predict(dmy, newdata = customers))
+#trsf
+
+head(new_data)
+
+
+
+# usek-1; using k creates multicolllinearity and adds no new informaiton 
+head(new_data_2)
+
+#should I be griping certain categorical variables to reduce cardiantlity??????
+#is area clsuter too high cardinality?
+
+#make this example reproducible
+set.seed(1)
+```
+
+Split to train and test; do we have to worry about the test data having same imblanace?
+
+```{r}
+#use 70% of dataset as training set and 30% as test set
+sample <- sample(c(TRUE, FALSE), nrow(train), replace=TRUE, prob=c(0.8,0.2))
+train_final<- train[sample, ]
+test_final<- train[!sample, ]
+
+table(train_final$is_claim)
+table(test_final$is_claim)
+
+prop.table(table(train_final$is_claim))
+prop.table(table(test_final$is_claim))
+
+train_final <- smote(is_claim ~ ., train_final, perc.over = 5)
+
+```
+
+Start to fit the models and see what we get and comapre them using different metrics:
+
+```{r}
+
+#new_data$is_claim<-as.factor(new_data$is_claim)
+str(train_final)
+RF_Model<-randomForest(is_claim ~ .,data = train_final,ntree=1000)
+plot(RF_Model)
+summary(RF_Model)
+RF_Model
+predicted<-predict(RF_Model,test_final) # shoudl i have to put type equals class?
+
+tuneRF(train_final,train_final$is_claim, ntreeTry = 100,trace=T, plot= T,improve = .5,stepFactor = 1.2)#tunes mtry
+# we need to decide on number of trees?
+
+table(predicted$is)
+tree_model$confusion
+confusionMatrix(predicted,test_final$is_claim,mode = "everything",positive = "1")
+library(pROC)
+library(ROCR)
+head(predicted)
+
+rfcv()
+View(predicted)
+auc(test_final$is_claim,predicted)
+performance(predicted,"auc")
+performance()
+str(new_data)
+
+pred <- predict(object = model,
+            newdata = test,
+            type = "prob")library(Metrics)
+auc(actual = test$Survived, 
+    predicted = pred[,"yes"])
+
+plot(tree_model)
+text(tree_model,pretty =0)
+
+
+
+
+#Logisitc; assumptions fo lienarly surpely with logg ods and no multinariaity;
+mylogit <- glm(is_claim ~ ., data = train_final, family = "binomial")
+mylogit
+summary(mylogit)
+
+
+#SVM;need to scale features for this model
+SVM_model<-svm(formula = is_claim ~ ., data = train_final, kernel = 'linear')
+
+Predicted_SVM<-predict(SVM_model,test_final)
+confusionMatrix(Predicted_SVM,test_final$is_claim,mode = "everything",positive = "1")
+cm = table(test_final[, 23], Predicted_SVM)
+plot(SVM_model, train_final)# should I use non linear kernal? or play with cost function?
+tuned_model<-tune(SVM_model,is_claim~.,daat=train_final,kernel="linear",ranges=list(cost=c(0.001, 0.01, 0.1, 1,5,10,100)))
+summary(tuned_model)
+#set.seed(1)
+
+# Best model from tuning
+bestmod=tuned_model$best.model
+summary(bestmod)
+
+#non linear tuning;
+tune.out <- tune(svm, y~., data = dat[train,], kernel = "radial",
+                 ranges = list(cost = c(0.1,1,10,100,1000),
+                 gamma = c(0.5,1,2,3,4)))
+
+
+
 ```
 
 
-```{r }
+If looking at metrics dont work, Should we try to Handle Class Imbalance (Try a few Different methods other than SMOTE):
 
+```{r}
+#class imbalance
+table(train$is_claim)
+prop.table(table(train$is_claim))
+
+#smote
+
+new_df <- smote(is_claim ~ ., train, perc.over = 2000, perc.under = 400)
+SMOTE()
 ```
 
+
+Final model evalution:
+
+```{r}
+
+```
