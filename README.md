@@ -9,6 +9,7 @@
 
 John Podias
 
+[Rmarkdown PDF](doc/Project_5_Rmarkdown_PDF.md)
 
 **Project summary**
 
