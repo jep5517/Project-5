@@ -10,3 +10,6 @@ The dataset is a collection of information about different car insurance policie
 
 
  
+![image](https://user-images.githubusercontent.com/14799441/208019791-dda9080f-a5bf-4a63-92df-459e74007728.png)
+
+![image-2](https://user-images.githubusercontent.com/14799441/208019803-e0973e4f-cd89-407e-9c85-c8fd23028e51.png)
