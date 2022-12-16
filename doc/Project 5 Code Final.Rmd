@@ -555,7 +555,7 @@ confusionMatrix(Log_predictions_2_SMOTE, test_final$is_claim,mode = "everything"
 
 -   Even though the final model's precision is low, we have provided a
     baseline with suggestions for improvement and even concluded that
-    Random Forest might be a better option over Logistic Rewgression for
+    Random Forest might be a better option over Logistic Regression for
     this type of data/prediction
 
 -   We produced this analysis on a imbalanced data set, which mirrors a
