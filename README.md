@@ -39,11 +39,7 @@ Objectives:
     develop as a data scientist.
 
 Data set Description: It is a collection of information about
-different car insurance policies at a given point in time. No further
-information, such as source or valuation date, was provided. Variables
-descriptions can be found in the data file and it is sourced from the Kaggle link
-also provided below. We use the Kaggle "train" set as our main data set
-before the train/test split and rename it `policy_data`:
+different car insurance policies at a given point in time with a target variable that tells if a policy had filed a claim in 6 months or not. No further information, such as source or valuation date, was provided. Variable descriptions can be found in the data file and it is sourced from the Kaggle link also provided below. We use the Kaggle "train" set as our main data set before the train/test split and rename it `policy_data`:
 
 https://www.kaggle.com/datasets/ifteshanajnin/carinsuranceclaimprediction-classification?resource=download&select=train.csv
 
