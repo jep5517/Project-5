@@ -45,6 +45,8 @@ different car insurance policies at a given point in time with a target variable
 
 https://www.kaggle.com/datasets/ifteshanajnin/carinsuranceclaimprediction-classification?resource=download&select=train.csv
 
+**Conclusion:** We fit two types of models, a logistic regression model and a random forest model, and compared performance. The performance was so bad we realized we had to improve the data set because of the target variable imbalance. We implement SMOTE, which is an oversampling technique to create synthetic examples of the minority class of the target variable (which were policies that had filed claim in the next 6 months). Once we balanced the training set to 50/50, we saw a huge increase in recall for both models and some increase in precision for both models. Even though we have low precision, we will ultimately choose the random forest model as our preferred model since its precision, recall and F1 score were higher than logistic regression. This project was a great learning opportunity to tackle the issue of target imbalance and provide some valuable baseline model for insurance companies. 
+
 Following suggestions by RICH FITZJOHN (@richfitz). This folder is orgarnized as follows.
 
 ```
