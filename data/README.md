@@ -4,5 +4,5 @@ The data directory contains data used in the analysis. This is treated as read o
 
 The dataset comes from the Kaggle link below. We use the Kaggle "train" set as our main dataset before the train/test split. It is renamed "policy_data" in this repo:
 
-https://www.kaggle.com/datasets/ifteshanajnin/carinsuranceclaimprediction-classification?resource=download&select=test.csv
+https://www.kaggle.com/datasets/ifteshanajnin/carinsuranceclaimprediction-classification?resource=download&select=train.csv
  
