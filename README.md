@@ -9,7 +9,8 @@
 
 John Podias
 
-[Rmarkdown PDF](doc/Project _5_Rmarkdown_PDF.md)
+[Rmarkdown PDF](https://github.com/jep5517/Project-5/blob/main/doc/Project%20_5_Rmarkdown_PDF.pdf)
+
 
 **Project summary**
 
